@@ -88,4 +88,7 @@ def test_annotations():
     def dest(d: float) -> list:
         pass
 
-    assert str(signature(dest)) == '(d: float, s: int) -> list'
+    assert str(signature(dest)) in (
+        '(d:float, s:int) -> list',
+        '(d: float, s: int) -> list'
+    )
