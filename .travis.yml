@@ -11,7 +11,7 @@ matrix:
     python: '3.7'
     before_install:
     - brew update
-    - brew uninstall numpy gdal
+    - brew uninstall --ignore-dependencies numpy gdal postgis
     - brew upgrade python
     - python3 -m venv osx-tests-venv
     - source osx-tests-venv/bin/activate
