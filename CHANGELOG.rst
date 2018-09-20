@@ -11,5 +11,8 @@ More information can be found on GitHub in the `releases section
 Version History
 ===============
 
+0.1.1
+    Minor fixes to tests and README.
+
 0.1.0
     Initial release.

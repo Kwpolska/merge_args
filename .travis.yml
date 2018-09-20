@@ -15,7 +15,7 @@ matrix:
     - brew upgrade python
     - python3 -m venv osx-tests-venv
     - source osx-tests-venv/bin/activate
-    - pip install --upgrade-strategy eager -U pip wheel
+    - pip install --upgrade-strategy eager -U pip setuptools wheel
 
 
 install:

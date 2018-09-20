@@ -101,7 +101,7 @@ def main():
                 with open(filename + '-commit', 'w') as fh:
                     fh.write(i[1])
             elif i[0] == 'CHANGELOG':
-                with open(pjoin(basedir, 'docs', 'CHANGELOG.rst')) as fh:
+                with open(pjoin(basedir, 'CHANGELOG.rst')) as fh:
                     currentfile = fh.read()
 
                 # A bit fragile...
@@ -109,7 +109,7 @@ def main():
                                        currentfile).groups()[0]
                 clog = indent(i[1], 4 * ' ')
 
-                with open(pjoin(basedir, 'docs', 'CHANGELOG.rst'), 'w') as fh:
+                with open(pjoin(basedir, 'CHANGELOG.rst'), 'w') as fh:
                     fh.write(currentfile.replace(
                         '\n' + currentver,
                         '\n{0}\n{1}\n\n{2}'.format(
