@@ -40,7 +40,7 @@ How it works?
 
 I wrote a detailed blog post, describing the ins and outs of how this package works:
 
-TODO: URL
+https://chriswarrick.com/blog/2018/09/20/python-hackery-merging-signatures-of-two-python-functions/
 
 This module was inspired by F4D3C0D3 on #python (freenode IRC).
 
