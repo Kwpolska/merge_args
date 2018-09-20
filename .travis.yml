@@ -1,0 +1,29 @@
+language: python
+sudo: false
+python:
+ - "3.5"
+ - "3.6"
+
+matrix:
+  include:
+  - os: osx
+    language: generic
+    python: '3.7'
+    before_install:
+    - brew update
+    - brew upgrade python
+    - python3 -m venv osx-tests-venv
+    - source osx-tests-venv/bin/activate
+    - pip install --upgrade-strategy eager -U pip wheel
+
+
+install:
+ - "pip install -r requirements.txt"
+
+script:
+  - "py.test tests/"
+
+notifications:
+  email:
+    on_success: change
+    on_failure: always
