@@ -97,7 +97,7 @@ def test_annotations():
 
 @pytest.mark.skipif(sys.version_info < (3, 8), reason="positional-only args added in Python 3.8")
 def test_positional_only():
-    from posonly import old, new
+    from tests.posonly import old, new
 
 
     assert str(signature(new)) == '(prefix, foo, /, *args, **kwargs)'
