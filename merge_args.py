@@ -42,9 +42,13 @@ import inspect
 import itertools
 import types
 import functools
+import sys
 
 __version__ = '0.1.1'
 __all__ = ('merge_args',)
+
+
+PY38 = sys.version_info >= (3, 8)
 
 
 def _blank():  # pragma: no cover
@@ -93,15 +97,22 @@ def _merge(source, dest):
 
     args_all = tuple(args_merged + kwonlyargs_merged)
 
-    passer_code = types.CodeType(len(args_merged), len(kwonlyargs_merged),
-                                 _blank.__code__.co_nlocals,
-                                 _blank.__code__.co_stacksize,
-                                 source.__code__.co_flags,
-                                 _blank.__code__.co_code, (), (),
-                                 args_all, dest.__code__.co_filename,
-                                 dest.__code__.co_name,
-                                 dest.__code__.co_firstlineno,
-                                 dest.__code__.co_lnotab)
+    passer_args = [len(args_merged)]
+    if PY38:
+        passer_args.append(source.__code__.co_posonlyargcount)
+
+    passer_args.extend([
+        len(kwonlyargs_merged),
+        _blank.__code__.co_nlocals,
+        _blank.__code__.co_stacksize,
+        source.__code__.co_flags,
+        _blank.__code__.co_code, (), (),
+        args_all, dest.__code__.co_filename,
+        dest.__code__.co_name,
+        dest.__code__.co_firstlineno,
+        dest.__code__.co_lnotab])
+
+    passer_code = types.CodeType(*passer_args)
     passer = types.FunctionType(passer_code, globals())
     dest.__wrapped__ = passer
 
