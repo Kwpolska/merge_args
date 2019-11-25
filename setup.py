@@ -5,7 +5,7 @@ from setuptools import setup
 
 
 setup(name='merge_args',
-      version='0.1.2',
+      version='0.1.3',
       description='Merge signatures of two functions with Advanced Hackery.',
       keywords='merge_args',
       author='Chris Warrick',
