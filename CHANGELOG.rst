@@ -11,6 +11,9 @@ More information can be found on GitHub in the `releases section
 Version History
 ===============
 
+0.1.2
+    Python 3.8 support
+
 0.1.1
     Minor fixes to tests and README.
 
