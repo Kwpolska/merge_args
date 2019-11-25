@@ -6,6 +6,7 @@
 
 import pytest
 import merge_args
+import sys
 from inspect import signature
 
 
@@ -92,3 +93,14 @@ def test_annotations():
         '(d:float, s:int) -> list',
         '(d: float, s: int) -> list'
     )
+
+
+@pytest.mark.skipif(sys.version_info < (3, 8), reason="positional-only args added in Python 3.8")
+def test_positional_only():
+    from posonly import old, new
+
+
+    assert str(signature(new)) == '(prefix, foo, /, *args, **kwargs)'
+
+    new = merge_args._merge(old, new)
+    assert str(signature(new)) == '(prefix, foo, /, bar)'

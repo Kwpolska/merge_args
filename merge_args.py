@@ -99,7 +99,7 @@ def _merge(source, dest):
 
     passer_args = [len(args_merged)]
     if PY38:
-        passer_args.append(source.__code__.co_posonlyargcount)
+        passer_args.append(dest.__code__.co_posonlyargcount)
 
     passer_args.extend([
         len(kwonlyargs_merged),
