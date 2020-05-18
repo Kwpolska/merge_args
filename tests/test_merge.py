@@ -39,6 +39,16 @@ def test_with_kwargs():
     assert str(signature(dest)) == '(d, a, b, e=2, c=1)'
 
 
+def test_when_kwargs_present_in_both():
+
+    def src(a, b, c=1, d=2): ...
+
+    @merge_args.merge_args(src)
+    def dest(e, c=1, d=2): ...
+
+    assert str(signature(dest)) == '(e, a, b, c=1, d=2)'
+
+
 def test_kwonlyargs():
 
     def src(q, w, e=1, *, r=2): pass
