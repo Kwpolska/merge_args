@@ -85,10 +85,18 @@ def _merge(source, dest):
         dest_kw = []
 
     args_merged = dest_pos
-
-    for a in itertools.chain(source_pos, dest_kw, source_kw):
+    for a in source_pos:
         if a not in args_merged:
             args_merged.append(a)
+
+    defaults_merged = []
+    for a, default in itertools.chain(
+        zip(dest_kw, dest_spec.defaults or []),
+        zip(source_kw, source_spec.defaults or [])
+    ):
+        if a not in args_merged:
+            args_merged.append(a)
+            defaults_merged.append(default)
 
     kwonlyargs_merged = dest_spec.kwonlyargs
     for a in source_spec.kwonlyargs:
@@ -116,14 +124,7 @@ def _merge(source, dest):
     passer = types.FunctionType(passer_code, globals())
     dest.__wrapped__ = passer
 
-    # defaults, annotations
-    defaults = dest.__defaults__
-    if defaults is None:
-        defaults = []
-    else:
-        defaults = list(defaults)
-    if source.__defaults__ is not None:
-        defaults.extend(source.__defaults__)
+    # annotations
 
     # ensure we take destination’s return annotation
     has_dest_ret = 'return' in dest.__annotations__
@@ -143,7 +144,7 @@ def _merge(source, dest):
         passer.__annotations__['return'] = dest_ret
     dest.__annotations__ = passer.__annotations__
 
-    passer.__defaults__ = tuple(defaults)
+    passer.__defaults__ = tuple(defaults_merged)
     if not dest.__doc__:
         dest.__doc__ = source.__doc__
     return dest
