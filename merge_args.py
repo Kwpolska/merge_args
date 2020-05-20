@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-# merge_args v0.1.3
+# merge_args v0.1.4
 # Merge signatures of two functions with Advanced Hackery.
 # Copyright © 2018, Chris Warrick.
 # All rights reserved.
@@ -44,7 +44,7 @@ import types
 import functools
 import sys
 
-__version__ = '0.1.3'
+__version__ = '0.1.4'
 __all__ = ('merge_args',)
 
 
