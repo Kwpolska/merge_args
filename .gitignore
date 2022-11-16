@@ -37,3 +37,6 @@ nosetests.xml
 
 # 
 .DS_Store
+
+# IntelliJ
+.idea
