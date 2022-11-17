@@ -49,6 +49,8 @@ __all__ = ('merge_args',)
 
 
 PY38 = sys.version_info >= (3, 8)
+PY310 = sys.version_info >= (3, 10)
+PY311 = sys.version_info >= (3, 11)
 
 
 def _blank():  # pragma: no cover
@@ -105,22 +107,44 @@ def _merge(source, dest):
 
     args_all = tuple(args_merged + kwonlyargs_merged)
 
-    passer_args = [len(args_merged)]
     if PY38:
-        passer_args.append(dest.__code__.co_posonlyargcount)
+        replace_kwargs = {
+            'co_argcount': len(args_merged),
+            'co_kwonlyargcount': len(kwonlyargs_merged),
+            'co_posonlyargcount': dest.__code__.co_posonlyargcount,
+            'co_nlocals': len(args_all),
+            'co_flags': source.__code__.co_flags,
+            'co_varnames': args_all,
+            'co_filename': dest.__code__.co_filename,
+            'co_name': dest.__code__.co_name,
+            'co_firstlineno': dest.__code__.co_firstlineno,
+        }
 
-    passer_args.extend([
-        len(kwonlyargs_merged),
-        _blank.__code__.co_nlocals,
-        _blank.__code__.co_stacksize,
-        source.__code__.co_flags,
-        _blank.__code__.co_code, (), (),
-        args_all, dest.__code__.co_filename,
-        dest.__code__.co_name,
-        dest.__code__.co_firstlineno,
-        dest.__code__.co_lnotab])
+        if PY310:
+            replace_kwargs['co_linetable'] = dest.__code__.co_linetable
+        else:
+            replace_kwargs['co_lnotab'] = dest.__code__.co_lnotab
 
-    passer_code = types.CodeType(*passer_args)
+        if PY311:
+            replace_kwargs['co_exceptiontable'] = dest.__code__.co_exceptiontable
+            replace_kwargs['co_qualname'] = dest.__code__.co_qualname
+
+        passer_code = _blank.__code__.replace(**replace_kwargs)
+    else:
+        passer_args = [
+            len(args_merged),
+            len(kwonlyargs_merged),
+            _blank.__code__.co_nlocals,
+            _blank.__code__.co_stacksize,
+            source.__code__.co_flags,
+            _blank.__code__.co_code, (), (),
+            args_all, dest.__code__.co_filename,
+            dest.__code__.co_name,
+            dest.__code__.co_firstlineno,
+            dest.__code__.co_lnotab,
+        ]
+        passer_code = types.CodeType(*passer_args)
+
     passer = types.FunctionType(passer_code, globals())
     dest.__wrapped__ = passer
 
