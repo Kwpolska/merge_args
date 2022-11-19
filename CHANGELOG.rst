@@ -11,8 +11,11 @@ More information can be found on GitHub in the `releases section
 Version History
 ===============
 
+0.1.5
+    Compatible with Python 3.7-3.11.
+
 0.1.4
-    Avoid taking default twice for args in both signatures
+    Avoid taking default twice for args in both signatures.
 
 0.1.3
     Fix test suite in tarball.

@@ -42,11 +42,11 @@ I wrote a detailed blog post, describing the ins and outs of how this package wo
 
 https://chriswarrick.com/blog/2018/09/20/python-hackery-merging-signatures-of-two-python-functions/
 
-This module was inspired by F4D3C0D3 on #python (freenode IRC).
+This module was inspired by F4D3C0D3 on #python (formerly on freenode IRC).
 
 License
 -------
-Copyright © 2018, Chris Warrick.
+Copyright © 2018-2022, Chris Warrick.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
