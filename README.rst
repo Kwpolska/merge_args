@@ -46,7 +46,7 @@ This module was inspired by F4D3C0D3 on #python (formerly on freenode IRC).
 
 License
 -------
-Copyright © 2018-2022, Chris Warrick.
+Copyright © 2018-2023, Chris Warrick.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without

@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 # merge_args v0.1.5
 # Merge signatures of two functions with Advanced Hackery.
-# Copyright © 2018-2022, Chris Warrick.
+# Copyright © 2018-2023, Chris Warrick.
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
