@@ -65,6 +65,24 @@ def test_kwonlyargs():
 
     assert str(signature(dest2)) == '(*, a=2, b=3)'
 
+def test_drop_args():
+
+    def src(q, w, e=1, *, r=2): pass
+
+    @merge_args.merge_args(src, drop_args=["q"])
+    def dest(*, t=3, **kwargs): pass
+
+    assert str(signature(dest)) == '(w, e=1, *, t=3, r=2)'
+
+def test_drop_kwonlyargs():
+
+    def src(q, w, e=1, *, r=2): pass
+
+    @merge_args.merge_args(src, drop_kwonlyargs=["r"])
+    def dest(*, t=3, **kwargs): pass
+
+    assert str(signature(dest)) == '(q, w, e=1, *, t=3)'
+
 
 def test_var_fails():
 

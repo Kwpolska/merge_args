@@ -43,6 +43,7 @@ import itertools
 import types
 import functools
 import sys
+import typing
 
 __version__ = '0.1.5'
 __all__ = ('merge_args',)
@@ -57,12 +58,21 @@ def _blank():  # pragma: no cover
     pass
 
 
-def _merge(source, dest):
+def _merge(
+    source,
+    dest,
+    drop_args: typing.Optional[typing.List[str]] = None,
+    drop_kwonlyargs: typing.Optional[typing.List[str]] = None,
+):
     """Merge the signatures of ``source`` and ``dest``.
 
     ``dest`` args go before ``source`` args in all three categories
     (positional, keyword-maybe, keyword-only).
     """
+    if drop_args is None:
+        drop_args = []
+    if drop_kwonlyargs is None:
+        drop_kwonlyargs = []
     source_spec = inspect.getfullargspec(source)
     dest_spec = inspect.getfullargspec(dest)
 
@@ -88,7 +98,7 @@ def _merge(source, dest):
 
     args_merged = dest_pos
     for a in source_pos:
-        if a not in args_merged:
+        if a not in args_merged and a not in drop_args:
             args_merged.append(a)
 
     defaults_merged = []
@@ -96,13 +106,13 @@ def _merge(source, dest):
         zip(dest_kw, dest_spec.defaults or []),
         zip(source_kw, source_spec.defaults or [])
     ):
-        if a not in args_merged:
+        if a not in args_merged and a not in drop_args:
             args_merged.append(a)
             defaults_merged.append(default)
 
     kwonlyargs_merged = dest_spec.kwonlyargs
     for a in source_spec.kwonlyargs:
-        if a not in kwonlyargs_merged:
+        if a not in kwonlyargs_merged and a not in drop_kwonlyargs:
             kwonlyargs_merged.append(a)
 
     args_all = tuple(args_merged + kwonlyargs_merged)
@@ -174,6 +184,12 @@ def _merge(source, dest):
     return dest
 
 
-def merge_args(source):
+def merge_args(
+    source,
+    drop_args: typing.Optional[typing.List[str]] = None,
+    drop_kwonlyargs: typing.Optional[typing.List[str]] = None,
+):
     """Merge the signatures of two functions."""
-    return functools.partial(_merge, source)
+    return functools.partial(
+        lambda x, y: _merge(x, y, drop_args, drop_kwonlyargs), source
+    )

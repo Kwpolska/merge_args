@@ -26,6 +26,21 @@ Usage
     def new(prefix, foo, *args, **kwargs):
         return old(prefix + foo, *args, **kwargs)
 
+or
+
+.. code:: python
+
+    from merge_args import merge_args
+
+    def old(foo, bar):
+        """This is old's docstring."""
+        print(foo, bar)
+        return foo + bar
+
+    @merge_args(old, drop_args=["bar"])
+    def new(prefix, foo, *args, **kwargs):
+        return old(prefix + foo, *args, **kwargs)
+
 If you then run ``help(new)``, this is the output:
 
 .. code:: text

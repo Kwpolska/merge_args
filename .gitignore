@@ -40,3 +40,10 @@ nosetests.xml
 
 # IntelliJ
 .idea
+
+# Visual Studio Code
+.vscode
+
+# virtual env
+.venv
+venv
